@@ -1,0 +1,151 @@
+:root{
+    --back-color: black;
+    --font-color: white;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    color: var(--font-color);
+    background-color: var(--back-color);
+}
+
+header{
+    position: relative;
+    margin-top: 15px;
+}
+
+
+div.button{
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    padding: 5px;
+    position: absolute;
+}
+
+
+div.user{
+    left: 0px;
+    top: -12px;
+    right: 0px;
+    padding: 8px;
+    height: 40px;
+    display: block;
+    text-align: right;
+    position: relative;
+}
+
+div.user h3{
+    right: 60px;
+    margin: auto;
+    bottom: -15px;
+    position: relative;
+}
+
+div.user img {
+    top: -20px;
+    width: 50px;
+    margin: auto;
+    position: relative;
+    border-radius: 50%;
+}
+
+hr{
+    position: relative;
+    border: solid #095484;
+}
+
+.msg{
+    text-align: center;
+}
+
+p.err{
+    color: red;
+    margin: 25px;
+    padding: 15px;
+    border: dashed;
+    border-radius: 10px;
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+p.valide{
+    margin: 25px;
+    padding: 15px;
+    border: dashed;
+    color: green;
+    border-radius: 10px;
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+
+.customersTable td, .customers th{
+    border: 1px solid white;
+    padding: 15px;
+    background-color: black;
+}
+
+.customersTable th{
+    text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: beige;
+    color: black;
+}
+
+.Label{
+    display: none;
+}
+
+td.infoUser img{
+    width: 50px;
+}
+
+@media only screen and (max-width: 900px){
+    .customersTable td, .customers th{
+        font-size: small;
+    }
+}
+
+@media only screen and (max-width: 850px){
+    table{
+        display:table-cell;
+        margin: 50%;
+    }
+    .customersTable thead{
+        display: none;
+    }
+
+    td.Label{
+        background-color: beige;
+        color: black;
+        display: block;
+        text-align: center;
+    }
+    td.infoUser{
+        color: white;
+        background-color: black;
+    }
+    td.infoUser img{
+        width: 50px;
+    }
+
+    .customersTable tr{
+        display: block;
+        margin-bottom: 40px;
+        margin-top: 40px;
+    }
+
+    .customersTable td{
+        display: block;
+    }
+
+    .customersTable td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+    }
+}
