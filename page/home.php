@@ -59,7 +59,6 @@
             if ($row['Admins'] == 1) {
                 $row = null;
                 $sendRequeteClient->execute();?>
-                <?php  while ($row= $sendRequeteClient->fetch(PDO::FETCH_ASSOC)): $nbUser ++;?>
                     <table class="customersTable">
                         <thead>
                             <tr>
@@ -72,9 +71,11 @@
                                 <th>Hote</th>
                                 <th>Date de création</th>
                                 <th>Date de modification</th>   
-                                <th>Admin</th>     
+                                <th>Admin</th>   
+                                <th>Label</th>  
                             </tr>
                         </thead>
+                        <?php  while ($row= $sendRequeteClient->fetch(PDO::FETCH_ASSOC)): $nbUser ++;?>
                         <tbody>
                             <tr>
                                 <td class="Label">ID</td>
@@ -119,11 +120,13 @@
                                         echo "<td class='infoUser'><img src='./asset/img/no.png'></td>";
                                     }
                                 ?>
+                                <td class="Label">OPTION</td>
+                                <td><a href="/Airbnb/page/update.php?id=<?php echo $row["id"]; ?>">Update</a></td>
                             </tr>
                         </tbody>
+                        <?php endwhile;?>
                     </table>
         <?php 
-                endwhile;
                 if ($nbUser == 0) {
                     echo "<p class='valide'>Mmmh, la base <strong>Client</strong> est vide</p>";
                     die();
@@ -155,7 +158,8 @@
                             <th>Adresse</th> 
                             <th>Hote</th>
                             <th>Date de création</th>
-                            <th>Date de modification</th>     
+                            <th>Date de modification</th>  
+                            <th>OPTION</th>   
                         </tr>
                     </thead>
                     <tbody>
@@ -194,6 +198,9 @@
 
                             <td class="Label">Date de modification</td>
                             <td class="infoUser"><?php echo htmlspecialchars($row['DateModification']); ?></td>
+                            
+                            <td class="Label">OPTION</td>
+                            <td><a href="/Airbnb/page/update.php?id=<?php echo $row["id"]; ?>">Update</a></td>
                         </tr>
                     </tbody>
                 </table>

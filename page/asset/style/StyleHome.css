@@ -81,6 +81,9 @@ p.valide{
     background-color: rgba(0, 255, 0, 0.2);
 }
 
+table{
+    margin: 10px auto auto auto;
+}
 
 .customersTable td, .customers th{
     border: 1px solid white;
@@ -111,10 +114,6 @@ td.infoUser img{
 }
 
 @media only screen and (max-width: 850px){
-    table{
-        display:table-cell;
-        margin: 50%;
-    }
     .customersTable thead{
         display: none;
     }
