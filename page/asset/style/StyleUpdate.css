@@ -1,0 +1,60 @@
+:root{
+    --back-color: black;
+    --font-color: white;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    color: var(--font-color);
+    background-color: var(--back-color);
+}
+
+@media (max-width: 767px) {
+    .main {
+        height: auto;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+form{
+    text-align: center;
+    border: solid blue;
+    background-color: black;
+    margin-top: 100px;
+    padding: 0px 20px 20px 20px;
+}
+
+form h1{
+    text-decoration: underline rgba(229, 255, 0, 0.692);
+}
+
+.main input{
+    width: 20em;
+    height: 20px;
+    padding: 5px;
+    font-size: 15px;
+    color: blueviolet;
+    text-align: center;
+    border: solid green;
+    border-radius: 15px;
+    margin: 0px 0px 10px;
+}
+
+.main input:focus{
+    text-align: left;
+    border-color: white;
+}
+
+
+label.msg {
+    display: block;
+    position: relative;
+    margin-top: 5px;
+    padding: 10px;
+    color: cornflowerblue;
+}
