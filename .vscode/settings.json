@@ -1,0 +1,30 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "mysql-elyas-lazla.alwaysdata.net",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "alwaysdata",
+            "username": "250295",
+            "database": "elyas-lazla_airbnb",
+            "password": "StarWars2003?"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "localhost",
+            "database": "airbnb",
+            "username": "root",
+            "password": "root"
+        }
+    ]
+}
