@@ -1,4 +1,5 @@
 <?php
+    require_once("./module/connectDB.php");
     session_start();
     if (isset($_SESSION['session_open'])) {
         header("location: /Airbnb/index.php");
@@ -18,10 +19,6 @@
         }
         else {
             try {
-                $db = new PDO('mysql:host=185.31.40.32:3306;dbname=elyas-lazla_airbnb', "250295", "StarWars2003?");
-                $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-
                 $requete = "SELECT * FROM Client where Email = :email and Passwords = :passwords";
                 $sendRequete = $db->prepare($requete);
                 $sendRequete->bindParam(':email', $email, PDO::PARAM_STR);
@@ -32,11 +29,15 @@
                 $row = $sendRequete->fetch(PDO::FETCH_ASSOC);
     
                 if ($count == 1 && !empty($row)) {
-                    $_SESSION['session_user_id']  = $row['id'];
-                    $_SESSION['session_email'] = $row['Email'];
-                    $_SESSION['session_nom'] = $row['Nom'];
                     $_SESSION['session_open'] = true;
+                    $_SESSION['session_email'] = $row["Email"];
+                    $_SESSION['isAdmin'] = false;
+                    
+                    if ($row['Admins'] == 1) {
+                        $_SESSION['isAdmin'] = true;                        
+                    }
                     header("location: /Airbnb/page/home.php");
+                    $sendRequete = null;
                     exit();
                 }
                 else {

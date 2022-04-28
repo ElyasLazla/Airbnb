@@ -1,23 +1,36 @@
-<?php 
-    if (isset($_REQUEST['UPDATE'])) {
-        
-        require_once "./module/connectDB.php";
-        session_start();
+<?php
+    require_once "./module/connectDB.php";
+    $CheckBoxHote = 0;
+    $CheckBoxAdmin = 0;
+    session_start();
+    if (!isset($_SESSION["session_open"])) {
+        header("location: /Airbnb/page/login.php");
+        exit();
+    }
+
+    $id = $_GET["id"];
+    if (isset($_REQUEST['UPDATES'])) {
         if (!isset($_SESSION["session_open"])) {
             header("location: /Airbnb/page/login.php");
             exit();
         }
-
         $nom = $_POST["nom"];
         $prenom = $_POST["prenom"];
         $email = $_POST["email"];
         $phone = $_POST["phone"];
         $password = $_POST["password"];
         $adresse = $_POST["adresse"];
-        $hote = $_POST["hote"];
+        $admin = 0;
+        if (isset($_POST["admin"])) {
+            $admin = 1;
+        }
+        $hote = 0;
+        if (isset($_POST["hote"])) {
+            $hote = 1;
+        }
 
         try {
-            $sqlUpdate = "UPDATE Client SET Nom=':nom', Prenom=':prenom', Email=':email', Phone=':phone', Passwords=':password', Adresse=':adresse', Hote=':hote', DtaeModification=CURRENT_TIME() WHERE `Client`.`:id`";
+            $sqlUpdate = "UPDATE Client SET Nom=:nom, Prenom=:prenom, Email=:email, Phone=:phone, Passwords=:password, Adresse=:adresse, Hote=:hote, DateModification=CURRENT_TIME(), Admins=:admin WHERE ID=:id";
             $sendRequeteUpdate = $db->prepare($sqlUpdate);
             $sendRequeteUpdate->bindParam(':nom', $nom, PDO::PARAM_STR);
             $sendRequeteUpdate->bindParam(':prenom', $prenom, PDO::PARAM_STR);
@@ -26,11 +39,16 @@
             $sendRequeteUpdate->bindParam(':password', $password, PDO::PARAM_STR);
             $sendRequeteUpdate->bindParam(':adresse', $adresse, PDO::PARAM_STR);
             $sendRequeteUpdate->bindParam(':hote', $hote, PDO::PARAM_INT);
-            $sendRequeteUpdate->bindParam(':id', $_GET['id'], PDO::PARAM_INT);
-            $sendRequeteUpdate->execute();
-            $row= $sendRequeteUpdate->fetch(PDO::FETCH_ASSOC);
+            $sendRequeteUpdate->bindParam(':admin', $admin, PDO::PARAM_INT);
+            $sendRequeteUpdate->bindParam(':id', $id, PDO::PARAM_INT);
+            if ($sendRequeteUpdate->execute()) {
+                $msgok = "Les données on étaits mise à jour.";
+                sleep(3);
+                header("location: /Airbnb/page/home.php");
+                $sendRequeteUpdate= null;
+            }
         } catch (PDOException $err) {
-            $msg = $err;
+            $msgerr = $err;
         }
     }
 ?>
@@ -45,38 +63,79 @@
     <title>Document</title>
 </head>
 <body>
+    <?php 
+        $requete = "SELECT * FROM Client where ID=:id";
+        $sendRequete = $db->prepare($requete);
+        $sendRequete->bindParam(':id', $id, PDO::PARAM_INT);
+        $sendRequete->execute();
+        $UserInfo = $sendRequete->fetch(PDO::FETCH_ASSOC);
+        if ($UserInfo["Hote"] == 1) {
+            $CheckBoxHote = 1;
+        }
+        if ($UserInfo["Admins"] == 1) {
+            $CheckBoxAdmin = 1;
+        }
+    ?>
+    <div class="msg">
+        <?php 
+            if (isset($msgok)) {
+                echo '<label class="valide">'.$msgok.'</label>'; 
+            }
+            else if (isset($msgerr)) {
+                echo '<label class="err">'.$msgerr.'</label>'; 
+            }
+        ?>
+    </div>
     <div class="main">
-        <form action="Airbnb/page/update.php" method="post">
+        <form method="post">
             <h1>Mise à jour des données</h1>
-            <div>
-                <input type="text" name="nom" placeholder="NOM">
+            <div class="label-input">
+                <label>Nom</label>
+                <input type="text" name="nom" value="<?= $UserInfo["Nom"];?>">
             </div>
-            <div>
-                <input type="text" name="prenom" placeholder="PRENOM">
+            <div class="label-input">
+                <label>Prénom</label>
+                <input type="text" name="prenom" value="<?= $UserInfo["Prenom"];?>">
             </div>
-            <div>
-                <input type="text" name="email" placeholder="EMAIL">
+            <div class="label-input">
+                <label>Email</label>
+                <input type="text" name="email" value="<?= $UserInfo["Email"];?>">
             </div>
-            <div>
-                <input type="text" name="phone" placeholder="TÉLÉPHONE">
+            <div class="label-input">
+                <label>Téléphone</label>
+                <input type="tel" name="phone" value="<?= $UserInfo["Phone"];?>">
             </div>
-            <div>
-                <input type="text" name="password" placeholder="MOT DE PASSE">
+            <div class="label-input">
+                <label>Mot de passe</label>
+                <input type="password" name="password" placeholder="PASSWORD" required>
             </div>
-            <div>
-                <input type="text" name="adresse" placeholder="ADRESSE">
+            <div class="label-input">
+                <label>Adresse</label>
+                <input type="text" name="adresse" value="<?= $UserInfo["Adresse"];?>">
             </div>
-            <div>
-                <input type="text" name="hote" placeholder="HÔTE">
+            <div class="label-input">
+                <label>HÔTE</label>
+                <?php 
+                    if ($CheckBoxHote == 1) {
+                        echo '<input type="checkbox" name="hote" checked>';
+                    }
+                    else {
+                        echo '<input type="checkbox" name="hote">';
+                    }
+                    if ($_SESSION['isAdmin'] == true) {
+                        echo "<label>ADMIN</label>";
+                        if ($CheckBoxAdmin == 1) {
+                            echo '<input type="checkbox" name="admin" checked>';
+                        }
+                        else {
+                            echo '<input type="checkbox" name="admin">';
+                        }
+                    }
+                ?>
             </div>
             <div class="button">
-                <button class="UpdateButton" type="submit" name="UPDATE">Mise a jour</button>
-            </div>
-            <?php 
-                if (isset($msg)) {
-                    echo '<label class="msg">'.$msg.'</label>'; 
-                }
-            ?>  
+                <button class="UpdateButton" type="submit" name="UPDATES">Mise a jour</button>
+            </div> 
         </form>
     </div>
 </body>

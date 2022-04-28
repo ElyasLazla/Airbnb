@@ -9,6 +9,9 @@
 }
 
 body{
+    margin: 0;
+    display: flex;
+    place-content: center;
     color: var(--font-color);
     background-color: var(--back-color);
 }
@@ -25,11 +28,12 @@ form{
     text-align: center;
     border: solid blue;
     background-color: black;
-    margin-top: 100px;
+    margin-top: 20px;
     padding: 0px 20px 20px 20px;
 }
 
 form h1{
+    margin: 5px;
     text-decoration: underline rgba(229, 255, 0, 0.692);
 }
 
@@ -50,11 +54,38 @@ form h1{
     border-color: white;
 }
 
+.msg{
+    text-align: left;
+}
 
-label.msg {
-    display: block;
-    position: relative;
-    margin-top: 5px;
-    padding: 10px;
-    color: cornflowerblue;
+label.err{
+    color: red;
+    margin: 25px;
+    padding: 15px;
+    border: dashed;
+    text-align: center;
+    border-radius: 10px;
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+label.valide{
+    margin: 25px;
+    padding: 15px;
+    border: dashed;
+    color: green;
+    text-align: center;
+    border-radius: 10px;
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+.label-input{
+    padding: 1px;
+    display: grid;
+    justify-content: center;
+}
+
+.label-input label{
+    text-decoration: underline;
+    text-decoration-color: aquamarine;
+    margin: 5px;
 }
