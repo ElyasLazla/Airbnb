@@ -23,7 +23,7 @@
 
         $FetchClient= $sendRequeteClient->fetch(PDO::FETCH_ASSOC);
         $NameImgUser = $FetchAdmin["PathPFP"];
-        if ($NameImgUser == "" or $NameImgUser == " ") {
+        if ($NameImgUser == "" || $NameImgUser == " ") {
             $NameImgUser = "./asset/img/user/default.jpg";
         }
 
