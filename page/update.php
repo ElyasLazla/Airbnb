@@ -29,8 +29,7 @@
                 $pathPFP = "./asset/img/user/".$IMG_NAME;
             }
         }
-        var_dump($pathPFP);
-
+        echo $pathPFP;
         $admin = 0;
         if (isset($_POST["admin"])) {
             $admin = 1;
@@ -51,7 +50,7 @@
             $sendRequeteUpdate->bindParam(':adresse', $adresse, PDO::PARAM_STR);
             $sendRequeteUpdate->bindParam(':hote', $hote, PDO::PARAM_INT);
             $sendRequeteUpdate->bindParam(':admin', $admin, PDO::PARAM_INT);
-            $sendRequete->bindParam(':pathPFP', $pathPFP, PDO::PARAM_STR);
+            $sendRequeteUpdate->bindParam(':pathPFP', $pathPFP, PDO::PARAM_STR);
             $sendRequeteUpdate->bindParam(':id', $id, PDO::PARAM_INT);
             if ($sendRequeteUpdate->execute()) {
                 $msgok = "Les données on étaits mise à jour.";
@@ -99,7 +98,7 @@
         ?>
     </div>
     <div class="main">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data" >
             <h1>Mise à jour des données</h1>
             <div class="label-input">
                 <label>Nom</label>

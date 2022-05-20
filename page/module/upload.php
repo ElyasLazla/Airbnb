@@ -10,7 +10,7 @@
         if (move_uploaded_file($file['tmp_name'], $uploadfile)) {
             return $newName;
         } else {
-            return "undefined";
+            return "error";
         }
     }
 
