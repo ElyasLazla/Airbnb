@@ -21,12 +21,10 @@
         $sendRequeteClient = $db->prepare($GetDataClient);
         $sendRequeteClient->execute();
 
-        $FetchClient= $sendRequeteClient->fetch(PDO::FETCH_ASSOC);
         $NameImgUser = $FetchAdmin["PathPFP"];
-        if ($NameImgUser == "" || $NameImgUser == " ") {
+        if ($NameImgUser == "" || $NameImgUser == " " || $NameImgUser == "NOT NULL") {
             $NameImgUser = "./asset/img/user/default.jpg";
         }
-
     } catch (PDOException $e) {
         $error = $e;
     }
@@ -40,6 +38,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./asset/style/StyleHome.css">
+    <link rel="icon" href="<?= $NameImgUser ?>"/>
     <title>Info base de donnée.</title>
 </head>
 <body>
@@ -83,7 +82,7 @@
                                 <th>Label</th>  
                             </tr>
                         </thead>
-                        <?php  while ($FetchClient): $nbUser ++;?>
+                        <?php  while ($FetchClient= $sendRequeteClient->fetch(PDO::FETCH_ASSOC)): $nbUser ++;?>
                         <tbody>
                             <tr>
                                 <td class="Label">ID</td>

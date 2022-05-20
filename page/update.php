@@ -1,4 +1,5 @@
 <?php
+    include ("./module/upload.php");
     require_once "./module/connectDB.php";
     $CheckBoxHote = 0;
     $CheckBoxAdmin = 0;
@@ -20,6 +21,16 @@
         $phone = $_POST["phone"];
         $password = $_POST["password"];
         $adresse = $_POST["adresse"];
+
+        if(isset($_FILES['pfp'])){
+            $IMG_NAME = "undefined";
+            $IMG_NAME = Upload($_FILES['pfp'], $_POST);
+            if ($IMG_NAME != "undefined") {
+                $pathPFP = "./asset/img/user/".$IMG_NAME;
+            }
+        }
+        var_dump($pathPFP);
+
         $admin = 0;
         if (isset($_POST["admin"])) {
             $admin = 1;
@@ -30,7 +41,7 @@
         }
 
         try {
-            $sqlUpdate = "UPDATE Client SET Nom=:nom, Prenom=:prenom, Email=:email, Phone=:phone, Passwords=:password, Adresse=:adresse, Hote=:hote, DateModification=CURRENT_TIME(), Admins=:admin WHERE ID=:id";
+            $sqlUpdate = "UPDATE Client SET Nom=:nom, Prenom=:prenom, Email=:email, Phone=:phone, Passwords=:password, Adresse=:adresse, Hote=:hote, DateModification=CURRENT_TIME(), Admins=:admin, PathPFP=:pathPFP WHERE ID=:id";
             $sendRequeteUpdate = $db->prepare($sqlUpdate);
             $sendRequeteUpdate->bindParam(':nom', $nom, PDO::PARAM_STR);
             $sendRequeteUpdate->bindParam(':prenom', $prenom, PDO::PARAM_STR);
@@ -40,6 +51,7 @@
             $sendRequeteUpdate->bindParam(':adresse', $adresse, PDO::PARAM_STR);
             $sendRequeteUpdate->bindParam(':hote', $hote, PDO::PARAM_INT);
             $sendRequeteUpdate->bindParam(':admin', $admin, PDO::PARAM_INT);
+            $sendRequete->bindParam(':pathPFP', $pathPFP, PDO::PARAM_STR);
             $sendRequeteUpdate->bindParam(':id', $id, PDO::PARAM_INT);
             if ($sendRequeteUpdate->execute()) {
                 $msgok = "Les données on étaits mise à jour.";
@@ -114,6 +126,10 @@
                 <input type="text" name="adresse" value="<?= $UserInfo["Adresse"];?>">
             </div>
             <div class="label-input">
+                <label>PHOTO DE PROFILE</label>
+                <input type="file" name="pfp">
+            </div>
+            <div class="label-input">
                 <label>HÔTE</label>
                 <?php 
                     if ($CheckBoxHote == 1) {
@@ -122,7 +138,7 @@
                     else {
                         echo '<input type="checkbox" name="hote">';
                     }
-                    if ($_SESSION['isAdmin'] == true) {
+                    if ($_SESSION['isAdmin']) {
                         echo "<label>ADMIN</label>";
                         if ($CheckBoxAdmin == 1) {
                             echo '<input type="checkbox" name="admin" checked>';
